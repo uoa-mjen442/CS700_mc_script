@@ -20,8 +20,14 @@ class Battery:
     def get_charge(self):
         return self.charge
 
+    def get_charge_percent(self):
+        return round(self.charge/self.capacity, 4)*100
+
     def get_discharge_rate(self):
         return self.discharge_rate
+
+    def get_max_discharge_rate(self):
+        return self.capacity/3
 
     def set_discharge_rate(self, new_value):
         self.discharge_rate = new_value

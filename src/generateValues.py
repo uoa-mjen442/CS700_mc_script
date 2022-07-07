@@ -1,13 +1,10 @@
-import time
 import math
 
-start_time = time.time()
 
-
-def generate_prediction_interval(max_value, angular_frequency, prediction_length):
+def generate_prediction_interval(max_value, angular_frequency, prediction_length, time):
     result = []
     for i in range(prediction_length):
-        value = round(2*max_value * math.sin(angular_frequency * math.pi * (time.time() - start_time + i))) - max_value
+        value = round(max_value * math.sin(angular_frequency * 2*math.pi * (time + i)-math.pi/2), 4)
         if value < 0:
             value = 0
         result.append(value)
@@ -15,8 +12,8 @@ def generate_prediction_interval(max_value, angular_frequency, prediction_length
     return result
 
 
-def generate_current_value(max_value, angular_frequency):
-    result = round(2*max_value * math.sin(angular_frequency * math.pi * (time.time() - start_time))) - max_value
+def generate_current_value(max_value, angular_frequency, time):
+    result = round(max_value * math.sin(angular_frequency * 2*math.pi * time-math.pi/2), 4)
     if result < 0:
         result = 0
     return result
