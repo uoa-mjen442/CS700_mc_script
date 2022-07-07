@@ -80,8 +80,6 @@ class ExampleApp(tk.Tk):
         return 'Battery charge: 50%'
 
 
-
-
 class Redirect(object):
     def __init__(self, widget, old_input, tag="stdout"):
         self.widget = widget
