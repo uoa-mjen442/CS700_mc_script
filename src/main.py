@@ -19,7 +19,7 @@ if __name__ == "__main__":
         prediction_interval = generateValues.generate_prediction_interval(max_value, angular_frequency,
                                                                           prediction_length, count*time_multiplier)
         immediate_prediction = generateValues.generate_current_value(max_value, angular_frequency, count*time_multiplier)
-        new_discharge_rate = pid_controller_variants.linear_control(default_battery.get_charge(),
+        new_discharge_rate = linear_controller.linear_control(default_battery.get_charge(),
                                                                     default_battery.get_max_discharge_rate(),
                                                                     immediate_prediction, prediction_interval,
                                                                     lower_limit, upper_limit, update_rate_buffer,
