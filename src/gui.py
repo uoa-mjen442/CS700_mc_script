@@ -98,14 +98,13 @@ class ExampleApp(tk.Tk):
                     sleep(0.01)
                     if t1.done():
                         print(t1.result())
+                        main.display_queue.queue.clear()
                         break
                     if self.stop_running:
                         print('stop')
                         global_variables_flags.stop_flag = True
                         sleep(1)
                         self.stop_running = False
-                print('completed main')
-            print('returning to normal')
         self.mainloop()
 
     def print_stdout(self):
@@ -115,7 +114,6 @@ class ExampleApp(tk.Tk):
     def print_stderr(self):
         '''Illustrate that we can write directly to stderr'''
         sys.stderr.write("this is stderr\n")
-
 
 
 class Redirect(object):
