@@ -18,7 +18,6 @@ def run_through_gui():
     lower_limit, upper_limit = capacity * 0.3, capacity * 0.7
     time_multiplier = 3600
     count = 0
-    control_scheme = 'pid'
 
     default_battery = Battery(capacity, charge, discharge_rate)
     PID = pid_body.PID(0.5, 0, 0.5, setpoint=0)
@@ -33,18 +32,23 @@ def run_through_gui():
                                                                           prediction_length, count * time_multiplier)
         immediate_prediction = generateValues.generate_current_value(max_value, angular_frequency,
                                                                      count * time_multiplier)
-        if control_scheme == 'linear':
+        if global_variables_flags.control_scheme == 'linear':
             new_discharge_rate = linear_controller.linear_control(default_battery.get_charge(),
                                                               default_battery.get_max_discharge_rate(),
                                                               immediate_prediction, prediction_interval,
                                                               lower_limit, upper_limit, update_rate_buffer,
                                                               default_battery.get_discharge_rate())
-        elif control_scheme == 'pid':
+        elif global_variables_flags.control_scheme == 'pid':
 
-            count, last_tick, new_discharge_rate = pid_controller.pid_control(count, last_tick, default_battery.get_charge(), PID)
+            count, last_tick, new_discharge_rate = pid_controller.pid_control(count, last_tick,
+                                                                              default_battery.get_charge(), PID)
+        else:
+            new_discharge_rate = 0
 
         default_battery.set_discharge_rate(new_discharge_rate)
-        display_queue.put("Tick: {} - {} hours elapsed - using {} control".format(count, count * time_multiplier / 3600, 'linear'))
+        display_queue.put("Tick: {} - {} hours elapsed - using {} control".format(count,
+                                                                                  count * time_multiplier / 3600,
+                                                                                  global_variables_flags.control_scheme))
         display_queue.put("Battery charge: {}KWH, input power: {}KW, discharge rate: {}KW".format(
             round(default_battery.get_charge(), 4),
             immediate_prediction,

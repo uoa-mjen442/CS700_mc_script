@@ -23,10 +23,6 @@ class ExampleApp(tk.Tk):
         title.grid(row=2, column=0, columnspan=2)
         v = tk.Scrollbar(self, orient='vertical')
         v.grid(row=2, column=5, rowspan=11)
-        b1 = tk.Button(self, text="print to stdout", command=self.print_stdout)
-        b2 = tk.Button(self, text="print to stderr", command=self.print_stderr)
-        b1.grid(row=1, column=0, columnspan=2)
-        b2.grid(row=1, column=2, columnspan=2)
         self.value_label = ttk.Label(self, text='Battery charge: 0%')
         self.value_label.grid(column=0, row=9, columnspan=2)
         self.text = tk.Text(self, wrap="word", yscrollcommand=v.set, padx=5, pady=5)
@@ -45,8 +41,26 @@ class ExampleApp(tk.Tk):
         def start_button_call():
             start_button.configure(state='disabled')
             if start_button['text'] == 'START':
+                self.stop_running = False
                 start_button.configure(text='STOP')
                 start_button.configure(state='normal')
+                options_selected = [hess_selected.get(), linear_selected.get(), pid_selected.get(),
+                                    fuzzy_power_selected.get(), ai_prediction_selected.get()]
+                if sum(options_selected) > 1:
+                    raise Exception("Multiple options selected. please try again")
+                if hess_selected.get():
+                    global_variables_flags.control_scheme = 'hess'
+                    raise Exception("Unsupported control scheme: HESS. Please try again")
+                elif linear_selected.get():
+                    global_variables_flags.control_scheme = 'linear'
+                elif pid_selected.get():
+                    global_variables_flags.control_scheme = 'pid'
+                elif fuzzy_power_selected.get():
+                    global_variables_flags.control_scheme = 'fuzzy'
+                    raise Exception("Unsupported control scheme: Fuzzy. Please try again")
+                elif ai_prediction_selected.get():
+                    global_variables_flags.control_scheme = 'ai prediction'
+                    raise Exception("Unsupported control scheme: AI prediction. Please try again")
                 start_button_function()
             else:
                 start_button.configure(text='START')
@@ -55,17 +69,24 @@ class ExampleApp(tk.Tk):
         start_button = tk.Button(self, text ="START", command=start_button_call)
         start_button.grid(row=7, column=1, rowspan=2)
 
+        # control style selection
+
         cs_label = tk.Label(self, text='Control Style')
         cs_label.grid(row=3, column=0, sticky='w')
-        checkbutton_hess = tk.Checkbutton(self, text="HESS")
+        hess_selected = tk.IntVar()
+        checkbutton_hess = tk.Checkbutton(self, text="HESS", variable=hess_selected)
         checkbutton_hess.grid(row=4, column=0, sticky='w')
-        checkbutton_linear = tk.Checkbutton(self, text="linear")
+        linear_selected = tk.IntVar()
+        checkbutton_linear = tk.Checkbutton(self, text="linear", variable=linear_selected)
         checkbutton_linear.grid(row=5, column=0, sticky='w')
-        checkbutton_pid = tk.Checkbutton(self, text="pid")
+        pid_selected = tk.IntVar()
+        checkbutton_pid = tk.Checkbutton(self, text="pid", variable=pid_selected)
         checkbutton_pid.grid(row=6, column=0, sticky='w')
-        checkbutton_fuzzy_power = tk.Checkbutton(self, text="fuzzy_power")
+        fuzzy_power_selected = tk.IntVar()
+        checkbutton_fuzzy_power = tk.Checkbutton(self, text="fuzzy_power", variable=fuzzy_power_selected)
         checkbutton_fuzzy_power.grid(row=7, column=0, sticky='w')
-        checkbutton_ai_prediction = tk.Checkbutton(self, text="ai_prediction")
+        ai_prediction_selected = tk.IntVar()
+        checkbutton_ai_prediction = tk.Checkbutton(self, text="ai_prediction", variable=ai_prediction_selected)
         checkbutton_ai_prediction.grid(row=8, column=0, sticky='w')
 
         label_time_multiplier = tk.Label(self, text="time multiplier: ")
@@ -107,13 +128,6 @@ class ExampleApp(tk.Tk):
                         self.stop_running = False
         self.mainloop()
 
-    def print_stdout(self):
-        '''Illustrate that using 'print' writes to stdout'''
-        print("this is stdout")
-
-    def print_stderr(self):
-        '''Illustrate that we can write directly to stderr'''
-        sys.stderr.write("this is stderr\n")
 
 
 class Redirect(object):
