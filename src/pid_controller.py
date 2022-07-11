@@ -1,5 +1,3 @@
-from pid_body import PID
-import main
 
 
 def pid_control(count, last_tick, pid_variable, pid_object):
