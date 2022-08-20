@@ -7,9 +7,9 @@ import time
 def processing_data(raw_file, log_file):
     print("Handling the simulation data of %s, log file %s" % (raw_file, log_file))
 
-LTC = SimCommander("trial_circuit.asc")
-for voltage in (0,2):
-    LTC.set_component_value('V3', voltage)
+LTC = SimCommander("battery_circuit_scripts/trial_circuit.asc")
+for voltage in (0.6,0):
+    LTC.set_component_value('V3', voltage) #Set V3 to 0.6V, then next iteration V3 to 0.6V
     #read = LTSpiceRawRead("trial_circuit.raw") #Not necessary, needs ltspice file to be run first.
     run_netlist_file = "{}_{}.net" .format(LTC.circuit_radic, voltage)
     LTC.run(run_netlist_file, callback=processing_data)

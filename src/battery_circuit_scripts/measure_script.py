@@ -1,8 +1,9 @@
 from PyLTSpice.LTSteps import LTSpiceLogReader
 
 parsed_data = []
-for voltage in (0,2):
-    data = LTSpiceLogReader("trial_circuit_{}.log" .format(voltage))
+
+for voltage in (0.6,0):
+    data = LTSpiceLogReader("battery_circuit_scripts/trial_circuit_{}.log" .format(voltage))
 
     print("Number of steps  :", data.step_count)
     step_names = data.get_step_vars()
@@ -18,8 +19,13 @@ for voltage in (0,2):
     #print([f"{data[name][i]:15}" for name in meas_names])
 
     
-    
-    parsed_data.append([f"{data[name][1]:1}" for name in meas_names])
+    raw_data = []
+    raw_data.append([f"{data[name][1]:1}" for name in meas_names])
+    parsed_data.append(raw_data[0][0])
 
-print(parsed_data[0][0], parsed_data[1][0])
+print(parsed_data)
+
+
+
+
 
