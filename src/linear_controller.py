@@ -1,5 +1,12 @@
 import generateValues
 
+"""
+This is a variant on P controllers, but also has a bonus feature where it can see into the future a bit.
+This is intended to be adapted later to a machine learning based solar input prediction program as found
+in our literature review. However such a program would require access to a lot of global irradiance data
+which isn't readily collected or available. 
+"""
+
 
 def linear_control(charge_numerical, max_discharge, current_input, prediction_interval,
                    lower_limit, upper_limit, update_rate_buffer, current_discharge_rate):

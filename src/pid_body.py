@@ -2,6 +2,10 @@ import time
 import warnings
 import main
 
+# adapted from a third party source which can be found here
+# https://github.com/m-lundberg/simple-pid
+# original function has been edited to support discrete tick system rather than continuous time measurement
+
 
 def _clamp(value, limits):
     lower, upper = limits

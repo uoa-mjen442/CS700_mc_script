@@ -1,4 +1,5 @@
-class Battery:
+class Battery: # this is a simplified model of a battery.
+    # It has charge given in KWH, and updates each tick with the discharge rate it is passed.
     def __init__(self, capacity, charge, discharge_rate):
         self.capacity = capacity
         self.charge = charge
@@ -10,12 +11,14 @@ class Battery:
         else:
             print('battery overflowed')
             self.charge = self.capacity
+            # prevent the battery from overfilling
 
         if (self.charge - self.discharge_rate) > 0:
             self.charge = self.charge - self.discharge_rate
         else:
             print('battery drained')
             self.charge = 0
+            # prevent the battery from having negative charge
 
     def get_charge(self):
         return self.charge

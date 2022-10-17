@@ -1,4 +1,4 @@
-
+# call function for simple_pid, very simplified for our purposes.
 
 def pid_control(count, last_tick, pid_variable, pid_object):
     current_time = count

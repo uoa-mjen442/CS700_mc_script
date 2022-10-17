@@ -1,5 +1,9 @@
 import math
 
+# this function generates approximated solar data, by cutting a sine wave in half
+# and shifting ir around to fit the parameters given.
+# this one generates multiple values to simulate if you had access to a prediction algorithm
+
 
 def generate_prediction_interval(max_value, angular_frequency, prediction_length, time):
     result = []
@@ -10,6 +14,8 @@ def generate_prediction_interval(max_value, angular_frequency, prediction_length
         result.append(value)
 
     return result
+
+# This one generates a single value, but in the same way.
 
 
 def generate_current_value(max_value, angular_frequency, time):

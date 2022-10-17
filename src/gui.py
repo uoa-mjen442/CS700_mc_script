@@ -6,6 +6,19 @@ from tkinter import ttk
 import sys
 import main
 import global_variables_flags
+"""
+simple TKinter-based gui to help the user interact with the program
+
+The most interesting part of the gui is the console log. it uses a 'redirect' class to print stdout and stderr
+to its own internal terminal. This terminal is an accurate copy of the real terminal, but doesn't receive commands.
+
+most of the code here is creating buttons and checkboxes and placing them in various spots in the gui using the 'grid'
+function. 
+
+The GUI also has a use of multithreading where it calls the main function using a thread pool executor. This is to 
+prevent the GUI from freezing while functions in main run, as they can take a lot of time. This way we can see status
+updates in real time. With a few subtle code edits you can actually run multiple simulations at once.
+"""
 
 
 class ExampleApp(tk.Tk):
@@ -127,7 +140,6 @@ class ExampleApp(tk.Tk):
                         sleep(1)
                         self.stop_running = False
         self.mainloop()
-
 
 
 class Redirect(object):
